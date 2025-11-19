@@ -1,8 +1,7 @@
 const express = require('express');
 const fs = require('fs');
-const path = require('path');
 
-const router = express.Router();
+const app = express();
 
 const USERS_FILE = '/tmp/users.json';
 
@@ -14,20 +13,26 @@ function readUsers() {
         const data = fs.readFileSync(USERS_FILE, 'utf8');
         return JSON.parse(data);
     } catch (error) {
+        console.error('Error reading users:', error);
         return [];
     }
 }
 
-router.get('/:id', (req, res) => {
-    const users = readUsers();
-    const user = users.find(u => u.id === req.params.id);
+app.get('/:id', (req, res) => {
+    try {
+        const users = readUsers();
+        const user = users.find(u => u.id === req.params.id);
 
-    if (!user) {
-        return res.status(404).json({ error: 'User not found' });
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        const { password, ...userData } = user;
+        res.json(userData);
+    } catch (error) {
+        console.error('Error getting user:', error);
+        res.status(500).json({ error: 'Internal server error' });
     }
-
-    const { password, ...userData } = user;
-    res.json(userData);
 });
 
-module.exports = router;
+module.exports = app;
