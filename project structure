@@ -1,0 +1,14 @@
+expense-tracker/
+├── api/
+│   ├── register.js
+│   ├── login.js
+│   ├── user.js
+│   ├── salary.js
+│   └── expenses.js
+├── public/
+│   ├── index.html
+│   ├── dashboard.html
+│   ├── style.css
+│   └── script.js
+├── package.json
+└── vercel.json
