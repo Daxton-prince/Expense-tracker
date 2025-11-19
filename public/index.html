@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Tracker - Login</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="logo">Expense Tracker</div>
+        <div class="nav-btns">
+            <button class="btn" onclick="showSection('login')">Login</button>
+            <button class="btn" onclick="showSection('signup')">Signup</button>
+        </div>
+    </header>
+    
+    <div class="main-content">
+        <section class="hero">
+            <div>
+                <h2>FOLLOW YOUR EXPENSES ANYWHERE YOU'RE</h2>
+                <p>Track your spendings over time and gain insight into your transactions. Our expense tracker helps you manage your finances with ease and precision.</p>
+            </div>
+        </section>
+        
+        <div class="forms-container">
+            <div id="login" class="section active">
+                <div class="login-container">
+                    <h2>LOGIN</h2>
+                    <div class="input-group">
+                        <input type="text" id="loginEmail" class="input-box" placeholder="Enter Email or phone No.">
+                    </div>
+                    <div class="input-group">
+                        <input type="password" id="loginPassword" class="input-box" placeholder="Input password">
+                        <button type="button" class="toggle-password" id="toggleLoginPassword" aria-label="Toggle password visibility">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                    <button class="button" onclick="login()">Log in</button>
+                </div>
+            </div>
+            
+            <div id="signup" class="section">
+                <div class="signup-container">
+                    <h2>SIGN UP</h2>
+                    <div class="input-group">
+                        <input type="text" id="firstName" class="input-box" placeholder="First Name">
+                    </div>
+                    <div class="input-group">
+                        <input type="text" id="lastName" class="input-box" placeholder="Last Name">
+                    </div>
+                    <div class="input-group">
+                        <input type="text" id="signupEmail" class="input-box" placeholder="Enter Email or phone No.">
+                    </div>
+                    <div class="input-group">
+                        <input type="password" id="signupPassword" class="input-box" placeholder="Create password">
+                        <button type="button" class="toggle-password" id="toggleSignupPassword" aria-label="Toggle password visibility">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <div class="strength-meter" id="strengthMeter"></div>
+                        <div class="strength-text" id="strengthText">Password strength</div>
+                    </div>
+                    <button class="button" onclick="signup()">Sign up</button>
+                </div>
+            </div>
+            
+            <div class="social-section">
+                <h4>Or Log in with..</h4>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-google"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-apple"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p class="info-text">
+            By creating an account, you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.
+        </p>
+        <p>Expense Tracker @ 2025 &copy; All rights Reserved</p>
+    </footer>
+
+    <div id="message" class="message"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
