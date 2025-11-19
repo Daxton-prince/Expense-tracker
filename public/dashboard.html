@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Tracker - Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="dashboard-header">
+        <div class="logo">Expense Tracker</div>
+        <div class="nav-btns">
+            <span id="welcomeUser" style="color: #00ff00; margin-right: 15px;">Welcome!</span>
+            <button class="btn" onclick="logout()">Logout</button>
+        </div>
+    </header>
+    
+    <div class="dashboard-content">
+        <!-- Salary Section -->
+        <div class="dashboard-card">
+            <h3>💰 Salary Information</h3>
+            <div style="text-align: center; margin-bottom: 20px;">
+                <p style="font-size: 1.2em; margin-bottom: 15px;">Current Salary: $<span id="currentSalary">0</span></p>
+                <input type="number" id="newSalary" class="input-box" placeholder="Enter new salary" step="0.01" style="margin-bottom: 10px;">
+                <button class="button" onclick="updateSalary()" style="width: auto; padding: 10px 20px;">Update Salary</button>
+            </div>
+        </div>
+
+        <!-- Add Expense Section -->
+        <div class="dashboard-card">
+            <h3>➕ Add New Expense</h3>
+            <form id="expenseForm">
+                <div class="input-group">
+                    <select id="expenseCategory" class="input-box" required>
+                        <option value="">Select Category</option>
+                        <option value="rent">Rent</option>
+                        <option value="entertainment">Entertainment</option>
+                        <option value="school-fees">School Fees</option>
+                        <option value="food">Food</option>
+                        <option value="transportation">Transportation</option>
+                        <option value="utilities">Utilities</option>
+                        <option value="healthcare">Healthcare</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <input type="number" id="expenseAmount" class="input-box" step="0.01" placeholder="Amount" required>
+                </div>
+                <div class="input-group">
+                    <input type="text" id="expenseDescription" class="input-box" placeholder="Description" required>
+                </div>
+                <div class="input-group">
+                    <input type="date" id="expenseDate" class="input-box" required>
+                </div>
+                <button type="button" class="button" onclick="addExpense()">Add Expense</button>
+            </form>
+        </div>
+
+        <!-- Summary Section -->
+        <div class="dashboard-card">
+            <h3>📊 Financial Summary</h3>
+            <div class="summary">
+                <div class="summary-item">
+                    <span>Total Salary:</span>
+                    <span class="summary-value">$<span id="totalSalary">0</span></span>
+                </div>
+                <div class="summary-item">
+                    <span>Total Expenses:</span>
+                    <span class="summary-value">$<span id="totalExpenses">0</span></span>
+                </div>
+                <div class="summary-item">
+                    <span>Remaining Balance:</span>
+                    <span class="summary-value">$<span id="remainingBalance">0</span></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Expenses List -->
+        <div class="dashboard-card">
+            <h3>📋 Recent Expenses</h3>
+            <div id="expensesList" class="expenses-list">
+                <!-- Expenses will be listed here -->
+            </div>
+        </div>
+    </div>
+
+    <div id="message" class="message"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
