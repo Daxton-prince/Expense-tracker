@@ -76,6 +76,8 @@ async function login() {
     }
     
     try {
+        showMessage('Logging in...', 'success');
+        
         const response = await fetch('/api/login', {
             method: 'POST',
             headers: {
@@ -89,11 +91,15 @@ async function login() {
         if (data.success) {
             localStorage.setItem('userId', data.userId);
             localStorage.setItem('username', data.username);
-            window.location.href = '/dashboard.html';
+            showMessage('Login successful!', 'success');
+            setTimeout(() => {
+                window.location.href = '/dashboard.html';
+            }, 1000);
         } else {
             showMessage(data.error, 'error');
         }
     } catch (error) {
+        console.error('Login error:', error);
         showMessage('Login failed. Please try again.', 'error');
     }
 }
@@ -113,6 +119,8 @@ async function signup() {
     const username = `${firstName} ${lastName}`;
     
     try {
+        showMessage('Creating account...', 'success');
+        
         const response = await fetch('/api/register', {
             method: 'POST',
             headers: {
@@ -131,10 +139,14 @@ async function signup() {
             document.getElementById('lastName').value = '';
             document.getElementById('signupEmail').value = '';
             document.getElementById('signupPassword').value = '';
+            // Reset strength meter
+            document.getElementById('strengthMeter').className = 'strength-meter';
+            document.getElementById('strengthText').textContent = 'Password strength';
         } else {
             showMessage(data.error, 'error');
         }
     } catch (error) {
+        console.error('Signup error:', error);
         showMessage('Registration failed. Please try again.', 'error');
     }
 }
@@ -159,6 +171,7 @@ async function loadDashboard() {
         currentUser = userData;
         updateDashboard(userData);
     } catch (error) {
+        console.error('Dashboard load error:', error);
         showMessage('Failed to load dashboard data', 'error');
     }
 }
@@ -247,6 +260,7 @@ async function updateSalary() {
             showMessage(data.error, 'error');
         }
     } catch (error) {
+        console.error('Salary update error:', error);
         showMessage('Failed to update salary', 'error');
     }
 }
@@ -289,6 +303,7 @@ async function addExpense() {
             showMessage(data.error, 'error');
         }
     } catch (error) {
+        console.error('Add expense error:', error);
         showMessage('Failed to add expense', 'error');
     }
 }
@@ -314,6 +329,7 @@ async function deleteExpense(expenseId) {
             showMessage(data.error, 'error');
         }
     } catch (error) {
+        console.error('Delete expense error:', error);
         showMessage('Failed to delete expense', 'error');
     }
 }
@@ -325,8 +341,28 @@ function logout() {
     window.location.href = '/';
 }
 
+// Test API connection
+async function testAPI() {
+    try {
+        const response = await fetch('/api/test');
+        const data = await response.json();
+        console.log('API Test:', data);
+        return data.success;
+    } catch (error) {
+        console.error('API Test failed:', error);
+        return false;
+    }
+}
+
 // Initialize when page loads
 document.addEventListener('DOMContentLoaded', function() {
+    // Test API connection on load
+    testAPI().then(success => {
+        if (!success) {
+            console.warn('API connection test failed');
+        }
+    });
+    
     // Setup password toggles for login page
     if (document.getElementById('loginPassword')) {
         setupPasswordToggle('loginPassword', 'toggleLoginPassword');
@@ -337,25 +373,30 @@ document.addEventListener('DOMContentLoaded', function() {
         const strengthMeter = document.getElementById('strengthMeter');
         const strengthText = document.getElementById('strengthText');
         
-        passwordInput.addEventListener('input', function() {
-            const password = passwordInput.value;
-            const strength = checkPasswordStrength(password);
-            
-            // Update strength meter
-            strengthMeter.className = 'strength-meter';
-            if (password.length > 0) {
-                strengthMeter.classList.add(`strength-${strength.level}`);
-                strengthText.textContent = strength.text;
-            } else {
-                strengthText.textContent = 'Password strength';
-            }
-        });
+        if (passwordInput && strengthMeter && strengthText) {
+            passwordInput.addEventListener('input', function() {
+                const password = passwordInput.value;
+                const strength = checkPasswordStrength(password);
+                
+                // Update strength meter
+                strengthMeter.className = 'strength-meter';
+                if (password.length > 0) {
+                    strengthMeter.classList.add(`strength-${strength.level}`);
+                    strengthText.textContent = strength.text;
+                } else {
+                    strengthText.textContent = 'Password strength';
+                }
+            });
+        }
     }
     
     // Initialize dashboard if on dashboard page
     if (window.location.pathname.includes('dashboard')) {
         // Set today's date as default for expense date
-        document.getElementById('expenseDate').valueAsDate = new Date();
+        const expenseDate = document.getElementById('expenseDate');
+        if (expenseDate) {
+            expenseDate.valueAsDate = new Date();
+        }
         loadDashboard();
     }
 });
